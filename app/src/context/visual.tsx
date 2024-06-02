@@ -77,19 +77,7 @@ export const VisualContextProvider = ({
 
   // Reset paletteTrackEnergy whenever the mode changes
   useEffect(() => {
-    switch (mode) {
-      case APPLICATION_MODE.WAVE_FORM:
-      case APPLICATION_MODE.NOISE:
-      case APPLICATION_MODE.AUDIO_SCOPE:
-      case APPLICATION_MODE.PARTICLE_NOISE:
-        setPaletteTrackEnergy(false);
-        break;
-      case APPLICATION_MODE.AUDIO:
-        setPaletteTrackEnergy(true);
-        break;
-      default:
-        return mode satisfies never;
-    }
+    setPaletteTrackEnergy(true);
   }, [mode, setPaletteTrackEnergy]);
   return (
     <VisualContext.Provider
