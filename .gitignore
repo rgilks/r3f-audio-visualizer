@@ -25,3 +25,18 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Shadow-CLJS
+/.shadow-cljs
+report.html
+
+# Generated files
+/.clj-kondo/.cache
+/.lsp
+.cpcache
+.jest
+.calva
+/karma/js
+/public/js
+/target/
+
