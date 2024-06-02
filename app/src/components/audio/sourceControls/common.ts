@@ -3,10 +3,7 @@ export interface AudioSourceControlsProps {
 }
 
 export const AUDIO_SOURCE = {
-  FILE_UPLOAD: "FILE_UPLOAD",
-  MICROPHONE: "MICROPHONE",
   SOUNDCLOUD: "SOUNDCLOUD",
-  SCREEN_SHARE: "SCREEN_SHARE",
 } as const;
 
 type ObjectValues<T> = T[keyof T];
@@ -26,21 +23,8 @@ export const iOS = (): boolean => {
 
 export const getPlatformSupportedAudioSources = (): AudioSource[] => {
   return [
-    AUDIO_SOURCE.SOUNDCLOUD,
-    AUDIO_SOURCE.MICROPHONE,
-    AUDIO_SOURCE.FILE_UPLOAD,
-    AUDIO_SOURCE.SCREEN_SHARE,
+    AUDIO_SOURCE.SOUNDCLOUD
   ];
-
-  // Apple devices/browsers using WebKit do NOT support CrossOrigin Audio
-  // see: https://bugs.webkit.org/show_bug.cgi?id=195043
-  // return iOS()
-  //   ? [AUDIO_SOURCE.FILE_UPLOAD, AUDIO_SOURCE.MICROPHONE]
-  //   : [
-  //     AUDIO_SOURCE.SOUNDCLOUD,
-  //     AUDIO_SOURCE.MICROPHONE,
-  //     AUDIO_SOURCE.FILE_UPLOAD,
-  //   ];
 };
 
 export const buildAudio = () => {

@@ -1,15 +1,12 @@
 import { BackgroundFog, CanvasBackground } from "@/components/canvas/common";
 import AudioVisual from "@/components/visualizers/visualizerAudio";
-import NoiseVisual from "@/components/visualizers/visualizerNoise";
-import ParticleNoiseVisual from "@/components/visualizers/visualizerParticleNoise";
-import WaveformVisual from "@/components/visualizers/visualizerWaveform";
+
 import {
   CAMERA_CONTROLS_MODE,
   useCameraControlsContext,
   useCameraControlsContextSetters,
 } from "@/context/cameraControls";
 import { useVisualContext } from "@/context/visual";
-import { APPLICATION_MODE } from "@/lib/applicationModes";
 import { useUser } from "@/lib/appState";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
@@ -17,24 +14,9 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { AutoOrbitCameraControls } from "./AutoOrbitCamera";
 import { PaletteTracker } from "./paletteTracker";
 
-const VisualizerComponent = ({
-  mode,
-}: {
-  mode: "WAVE_FORM" | "NOISE" | "AUDIO" | "PARTICLE_NOISE";
-}) => {
+const VisualizerComponent = ({ mode }: { mode: "AUDIO" }) => {
   const { visual } = useVisualContext();
-  switch (mode) {
-    case APPLICATION_MODE.WAVE_FORM:
-      return <WaveformVisual visual={visual} />;
-    case APPLICATION_MODE.NOISE:
-      return <NoiseVisual visual={visual} />;
-    case APPLICATION_MODE.PARTICLE_NOISE:
-      return <ParticleNoiseVisual />;
-    case APPLICATION_MODE.AUDIO:
-      return <AudioVisual visual={visual} />;
-    default:
-      return mode satisfies never;
-  }
+  return <AudioVisual visual={visual} />;
 };
 
 const CameraControls = () => {
@@ -70,7 +52,7 @@ const CameraControls = () => {
 const Visual3DCanvas = ({
   mode,
 }: {
-  mode: "WAVE_FORM" | "NOISE" | "AUDIO" | "PARTICLE_NOISE";
+  mode: "AUDIO";
 }) => {
   return (
     <Canvas

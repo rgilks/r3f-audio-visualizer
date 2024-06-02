@@ -1,9 +1,8 @@
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import AudioAnalyzer from "@/components/analyzers/audioAnalyzer";
 import AudioScopeCanvas from "@/components/canvas/AudioScope";
 import Visual3DCanvas from "@/components/canvas/Visual3D";
-import { ControlsPanel } from "@/components/controls/main";
-import { useModeContext } from "@/context/mode";
+import { useModeContext, useModeContextSetters } from "@/context/mode";
 import { APPLICATION_MODE, type ApplicationMode } from "@/lib/applicationModes";
 
 import { useAppStateActions } from "./lib/appState";
@@ -39,6 +38,21 @@ const getCanvasComponent = (mode: ApplicationMode) => {
 const App = () => {
   const { mode } = useModeContext();
   const { noteCanvasInteraction } = useAppStateActions();
+  const { setShowUI, setMode } = useModeContextSetters();
+  
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.code === 'Space') {
+        event.preventDefault();
+        setMode("AUDIO");
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [setMode]);
 
   return (
     <main className="relative h-[100dvh] w-[100dvw] bg-black">
@@ -56,7 +70,6 @@ const App = () => {
           {getAnalyzerComponent(mode)}
         </Suspense>
       </div>
-      <ControlsPanel />
     </main>
   );
 };
