@@ -4,7 +4,7 @@ import {
   type ComponentPropsWithoutRef,
   type HTMLAttributes,
 } from "react";
-import { useModeContext } from "@/context/mode";
+import { useModeContext, useModeContextSetters } from "@/context/mode";
 import { useSoundcloudContext } from "@/context/soundcloud";
 import { getTrackStreamUrl } from "@/lib/soundcloud/api";
 import { type SoundcloudTrack } from "@/lib/soundcloud/models";
@@ -22,6 +22,7 @@ export const TrackPlayer = ({
   track: SoundcloudTrack;
 }) => {
   const { showUI } = useModeContext();
+  const { setShowUI } = useModeContextSetters();
 
   const { data: streamUrl } = useSuspenseQuery({
     queryKey: ["soundcloud-stream-url", track.id],
@@ -30,26 +31,27 @@ export const TrackPlayer = ({
     },
   });
 
-  const [play, setPlay] = useState(true);
+  const [play, setPlay] = useState(false);
 
   useEffect(() => {
-    if (!streamUrl) {
-      audio.pause();
-    } else {
-      audio.src = streamUrl;
-      const promise = audio.play();
-      if (promise !== undefined) {
-        promise
-          .then(() => console.log(`Playing ${track.title}`))
-          .catch((_) => {
-            // Auto-play was prevented
-            console.error(`Error playing ${track.title}`);
-          });
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.code === 'Space') {
+        event.preventDefault(); // Prevent default spacebar behavior (e.g., page scroll)
+        setPlay((curr) => !curr);
+        setShowUI((curr) => !curr);
       }
-    }
-    return () => {
-      audio.pause();
     };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [setShowUI]);
+
+  useEffect(() => {
+    if (streamUrl) {
+      audio.src = streamUrl;
+    }
   }, [audio, streamUrl, track]);
 
   useEffect(() => {

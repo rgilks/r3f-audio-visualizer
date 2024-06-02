@@ -9,7 +9,7 @@ import SettingsDock from "./settingsDock";
 export const ControlsPanel = () => {
   const { mode, showUI } = useModeContext();
   const { setShowUI } = useModeContextSetters();
-  return (
+  return (showUI && (
     <>
       <div className="pointer-events-none absolute top-0 flex w-full flex-row items-center justify-end gap-2 p-4">
         <Switch
@@ -21,7 +21,6 @@ export const ControlsPanel = () => {
           }}
         />
       </div>
-      {showUI && (
         <div className="pointer-events-none absolute bottom-0 flex w-full items-end justify-center gap-4 p-4">
           {mode !== APPLICATION_MODE.AUDIO_SCOPE && (
             <VisualsDock className="sm:max-w-[60%]" />
@@ -34,9 +33,8 @@ export const ControlsPanel = () => {
             <SettingsDock />
           </div>
         </div>
-      )}
     </>
-  );
+  ));
 };
 
 export default ControlsPanel;
