@@ -22,7 +22,7 @@ export const TrackPlayer = ({
   track: SoundcloudTrack;
 }) => {
   const { showUI } = useModeContext();
-  const { setShowUI } = useModeContextSetters();
+  const { setShowUI} = useModeContextSetters();
 
   const { data: streamUrl } = useSuspenseQuery({
     queryKey: ["soundcloud-stream-url", track.id],
@@ -46,7 +46,7 @@ export const TrackPlayer = ({
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [setShowUI]);
+  }, [setShowUI, setPlay]);
 
   useEffect(() => {
     if (streamUrl) {
