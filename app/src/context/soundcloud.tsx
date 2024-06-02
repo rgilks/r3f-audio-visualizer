@@ -26,7 +26,18 @@ export const SoundcloudContextProvider = ({
   initial?: Partial<SoundcloudConfig>;
 }>) => {
   const [track, setTrack] = useState<SoundcloudTrack | null>(
-    initial?.track ?? null,
+    {
+      "id": 1835614995,
+      "title": "1 - 6-24 - B",
+      "artwork_url": null,
+      "playback_count": 0,
+      "user": {
+          "avatar_url": "https://i1.sndcdn.com/avatars-000004531309-k29pv9-large.jpg",
+          "id": 5712347,
+          "username": "robg213",
+          "track_count": 2
+      }
+  },
   );
 
   return (
